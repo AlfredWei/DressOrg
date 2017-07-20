@@ -17,4 +17,41 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="facebook_app_id">1929770167300107</string>
+    <string name="LoginFB">Login by Facebook</string>
+    <string name="AccountTitle">Login</string>
+    <string name="fb_login_protocol_scheme">fb1929770167300107</string>
+
+    <!-- Errors -->
+    <string name="facebook_login_error">Facebook login encounter error</string>
+    <string name="facebook_login_cancel">Facebook login has been canceled</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_account">Account</string>
+
+
+    <!--String relate to overview -->
+    <string name="take_picture">Take Picture</string>
+    <string name="edit_photo">Edit Photo</string>
+
+    <!--String relate to ActivityPreEdit_view-->
+    <string name="find_object">Find object</string>
+    <string name="photo_provider">org.dress.mydress.take_picture_fileprovider</string>
+    <string name="photo_preedit">PreEdit Photo</string>
+    <string name="photo_edit">Edit Photo</string>
+    <string name="photo_select">Please select photo</string>
+    <string name="photos">Photos</string>
+    <string name="not_have_opencv">Not Have Opencv </string>
+    <string name="not_have_photo">Not Have Photo </string>
+
+    <!-- String releate to photo_gallery-->
+    <string name="not_select_photo"> Please select at least one image </string>
+    <string name="many_select_photo"> Please select at most one image </string>
+
+    <!--String relate to imgtumb_menu-->
+    <string name="select_imgthumb">Select photo</string>
+    <string name="delete_imgthumb">Delete photos</string>
+    <string name="cancel_imgthumb">Cancel photos</string>
+    <string name="title_activity_edit">ActivityEdit</string>
+    <string name="title_activity_account_info">Account Info</string>
 </resources>

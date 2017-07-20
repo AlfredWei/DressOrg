@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--Select Edit Photo Range Window-->
+    <color name="white_translucent">#AAFFFFFF</color>
+    <color name="black_translucent">#B0000000</color>
+    <color name="lightseagreen">#20B2AA</color><!--亮海蓝色 -->
+    <color name="royalblue">#4169E1</color><!--皇家藍 -->
+
+    <color name="border">@color/royalblue</color>
+    <color name="corner">@color/royalblue</color>
+    <color name="surrounding_area">@color/black_translucent</color>
+
 </resources>
