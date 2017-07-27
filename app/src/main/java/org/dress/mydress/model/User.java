@@ -4,6 +4,9 @@ import android.graphics.Picture;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by j-weishiyi on 2017/6/12.
  */
@@ -11,11 +14,11 @@ import android.os.Parcelable;
 public class User implements Parcelable{
 
     public String name;
+    public String user_id;
     public String login_token;
     public String login_account_type;
     public String page;
     public String mobile;
-
 
     public boolean isLogin(){
 
@@ -28,21 +31,24 @@ public class User implements Parcelable{
         login_account_type = new String();
         page = new String();
         mobile = new String();
+        user_id = new String();
     }
 
     //Parcel Overrides
     public User(Parcel in)
     {
-        String[] data = new String[5];
+        String[] data = new String[6];
 
         in.readStringArray(data);
         // the order needs to be the same as in writeToParcel() method
         this.name = data[0];
         this.login_token = data[1];
-        this.login_account_type = data[2];
-        this.page = data[3];
-        this.mobile = data[4];
+        this.user_id = data[2];
+        this.login_account_type = data[3];
+        this.page = data[4];
+        this.mobile = data[5];
     }
+
 
     @Override
     public int describeContents() {
@@ -53,6 +59,7 @@ public class User implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {this.name,
                 this.login_token,
+                this.user_id,
                 this.login_account_type,
                 this.page,
                 this.mobile});

@@ -32,6 +32,7 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.AccessToken;
 import com.facebook.ProfileTracker;
 import com.facebook.Profile;
+import com.google.gson.JsonIOException;
 
 import org.dress.mydress.Utility.UtilityView.ImageAdapter;
 import org.dress.mydress.model.Home;
@@ -46,6 +47,8 @@ import java.util.Date;
 import org.dress.mydress.model.User;
 import org.dress.mydress.model.UserType;
 import org.dress.mydress.model.Wardrobe;
+import org.dress.mydress.data.ModelSerializer;
+import org.json.JSONException;
 
 public class ActivityOverview extends AppCompatActivity {
 
@@ -59,6 +62,8 @@ public class ActivityOverview extends AppCompatActivity {
     private  String photo_director = null;
     private  File[] photo_list = null;
     private BottomNavigationView mBottomView;
+
+    private ModelSerializer mModelSerializer;
 
     private Home     mHomeModel;
     private CallbackManager mFBCallbackManager;
@@ -129,6 +134,7 @@ public class ActivityOverview extends AppCompatActivity {
 
         setContentView(R.layout.activity_overview);
         mHomeModel = new Home();
+        mModelSerializer = new ModelSerializer(this);
         mBottomView =(BottomNavigationView) findViewById(R.id.navigation);
         mFBCallbackManager = CallbackManager.Factory.create();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -168,6 +174,7 @@ public class ActivityOverview extends AppCompatActivity {
         if( null != token )
         {
             mHomeModel.user_info.login_token = token.getToken();
+            mHomeModel.user_info.user_id = token.getUserId();
             mHomeModel.user_info.login_account_type = UserType.UserTypeFacebook;
             Profile user_profile = Profile.getCurrentProfile();
             mHomeModel.user_info.name = user_profile.getName();
@@ -183,6 +190,19 @@ public class ActivityOverview extends AppCompatActivity {
     protected void RestoreWardrobeInfo()
     {
         //base on user account get all user data
+        String sUserID = mHomeModel.user_info.user_id;
+        if(!sUserID.isEmpty()) {
+            Wardrobe wardrobe = null;
+            try {
+                wardrobe = mModelSerializer.LoadUserWardrobe(sUserID);
+            }
+            catch (Exception e){
+                Log.v(TAG, "Cannot Load wardrobe info");
+                Log.v(TAG, e.toString());
+            }
+            if ( null != wardrobe && !wardrobe.clothes.isEmpty() )
+                mHomeModel.wardrobe_info = wardrobe;
+        }
     }
 
     protected void InitLayout()
@@ -392,6 +412,25 @@ public class ActivityOverview extends AppCompatActivity {
         accessTokenTracker.stopTracking();
         mFBProfileTracker.stopTracking();
     }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        if(!mHomeModel.user_info.user_id.isEmpty() &&
+                !mHomeModel.wardrobe_info.clothes.isEmpty()){
+            try {
+                mModelSerializer.SaveUserWardrobe(
+                        mHomeModel.user_info.user_id, mHomeModel.wardrobe_info);
+            }
+            catch (Exception e){
+                Log.v(TAG, "Got exception while save Wardrobe");
+                Log.v(TAG, e.toString());
+            }
+        }
+
+    }
+
     private void Refresh()
     {
         if (android.os.Build.VERSION.SDK_INT >= 11){

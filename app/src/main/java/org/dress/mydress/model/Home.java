@@ -17,4 +17,16 @@ public class Home {
         user_info = new User();
         wardrobe_info = new Wardrobe();
     }
+
+    public void Set(Home rhs)
+    {
+        user_info = rhs.user_info;
+        wardrobe_info = rhs.wardrobe_info;
+    }
+
+    public void Clear()
+    {
+        user_info = new User();
+        wardrobe_info = new Wardrobe();
+    }
 }

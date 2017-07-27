@@ -3,6 +3,10 @@ package org.dress.mydress.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -11,6 +15,8 @@ import java.util.ArrayList;
 
 public class Wardrobe implements Parcelable{
     public ArrayList<Cloth> clothes;
+
+    private final String JSON_Clothes = "clothes";
 
     public boolean has_clothes(){
         return clothes.size() != 0;
@@ -46,4 +52,31 @@ public class Wardrobe implements Parcelable{
                     return new Wardrobe[size];
                 }
             };
+
+    public JSONObject toJson() throws JSONException
+    {
+        JSONObject jContent = new JSONObject();
+        JSONArray  jClothes = new JSONArray();
+
+        for(Cloth c: clothes)
+            jClothes.put(c.toJson());
+
+        jContent.put(JSON_Clothes, jClothes);
+        return jContent;
+    }
+
+    public void fromJson(JSONObject jContent) throws  JSONException
+    {
+        JSONArray jClothes = jContent.getJSONArray(JSON_Clothes);
+        clothes.clear();
+
+        for ( int i = 0; i < jClothes.length() ; ++i)
+        {
+            JSONObject jCloth = jClothes.getJSONObject(i);
+            Cloth cloth = new Cloth();
+            if ( cloth.fromJson(jCloth) )
+                clothes.add(cloth);
+        }
+
+    }
 }
