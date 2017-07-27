@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.dress.mydress.R;
 
 public class ActivityEdit extends AppCompatActivity {
-
+//test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
