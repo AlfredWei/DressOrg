@@ -21,7 +21,7 @@
     <string name="LoginFB">Login by Facebook</string>
     <string name="AccountTitle">Login</string>
     <string name="fb_login_protocol_scheme">fb1929770167300107</string>
-
+    <string name="AccountDetailTitle">Account Info</string>
     <!-- Errors -->
     <string name="facebook_login_error">Facebook login encounter error</string>
     <string name="facebook_login_cancel">Facebook login has been canceled</string>
