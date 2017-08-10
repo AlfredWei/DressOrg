@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -16,6 +18,9 @@ import org.dress.mydress.R;
 import org.dress.mydress.Utility.ImageProcess.ProcessData;
 import org.dress.mydress.Utility.ImageProcess.RemoveBackground;
 import org.dress.mydress.Utility.UtilityView.CropImageView;
+import org.dress.mydress.model.Cloth;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Point;
 
@@ -25,6 +30,7 @@ import org.opencv.core.Point;
 
 public class ActivityPreEdit extends AppCompatActivity {
 
+    private static final String TAG = "PreEditView";
     CropImageView mEditImageView = null;
     Bitmap mBitmap = null;
     String mPhotoPath = null;
@@ -75,12 +81,13 @@ public class ActivityPreEdit extends AppCompatActivity {
 
     private void SetImageView(String photo_src)
     {
+        DisplayMetrics display = this.getResources().getDisplayMetrics();
+        mEditImageView.getLayoutParams().height = display.heightPixels *7/10;
+        mEditImageView.getLayoutParams().width = display.widthPixels ;
 
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(photo_src, bmOptions);
-
-        int photoW = bmOptions.outWidth;
         bmOptions.inJustDecodeBounds = false;
 
         mBitmap = BitmapFactory.decodeFile(photo_src, bmOptions);
@@ -130,6 +137,10 @@ public class ActivityPreEdit extends AppCompatActivity {
     private void DoEditPhoto()
     {
         Intent edit_photo_intent = new Intent(ActivityPreEdit.this, ActivityEdit.class);
+        Cloth json_cloth = new Cloth();
+
+        edit_photo_intent.putExtra("photo_path", mPhotoPath );
+        edit_photo_intent.putExtra("cloth_data", json_cloth );
         startActivityForResult(edit_photo_intent, EDIT_PHOTO_REQUEST);
     }
 
@@ -140,6 +151,7 @@ public class ActivityPreEdit extends AppCompatActivity {
         finish();
         startActivity( select_photo_intent );
     }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
