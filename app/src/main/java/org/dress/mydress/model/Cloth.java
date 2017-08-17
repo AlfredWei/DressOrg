@@ -98,6 +98,36 @@ public class Cloth implements Parcelable{
         });
     }
 
+    public void setsName(String new_name )
+    {
+        sName = new_name;
+    }
+
+    public void setsTags(String new_tags )
+    {
+        sTags = new_tags;
+    }
+
+    public void setcType(ClothType new_type )
+    {
+        cType = new_type;
+    }
+
+    public String GetClothName()
+    {
+        return  sName;
+    }
+
+    public String GetClothTags()
+    {
+        return  sTags;
+    }
+
+    public ClothType GetClothType()
+    {
+        return  cType;
+    }
+
     public static final Parcelable.Creator<Cloth> CREATOR =
             new Parcelable.Creator<Cloth>() {
                 public Cloth createFromParcel(Parcel in) {
