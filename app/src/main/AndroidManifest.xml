@@ -33,7 +33,7 @@
         <activity android:name=".view.ActivityCamera" />
         <activity android:name=".view.ActivityCloths" />
         <activity android:name=".view.ActivityLogin" />
-	<activity android:name=".view.ActivityPreEdit" />
+        <activity android:name=".view.ActivityPreEdit" />
         <activity android:name=".view.ActivityEdit" />
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -59,8 +59,9 @@
         <activity
             android:name=".view.ActivityAccountInfo"
             android:label="@string/title_activity_account_info"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-	<provider
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="@string/photo_provider"
             android:exported="false"
@@ -69,6 +70,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/picture_savepath" />
         </provider>
+
+        <activity android:name=".view.ActivityFittingRoom"></activity>
     </application>
 
 </manifest>

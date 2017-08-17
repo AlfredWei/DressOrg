@@ -77,6 +77,14 @@ public class UserAccountInfoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        ActivityOverview parent = (ActivityOverview) getActivity();
+        parent.LeaveAccountInfo();
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

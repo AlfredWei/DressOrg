@@ -64,4 +64,5 @@
     <string name="cancel_imgthumb">Cancel photos</string>
     <string name="title_activity_edit">ActivityEdit</string>
     <string name="title_activity_account_info">Account Info</string>
+    <string name="dress_pick_for_me">Pick for me!</string>
 </resources>

@@ -25,6 +25,9 @@ import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -63,7 +66,7 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
     private BottomNavigationView mBottomView;
 
     private ModelSerializer mModelSerializer;
-
+    private GridView mGridView;
     private Home mHomeModel;
     private CallbackManager mFBCallbackManager;
     private AccessToken mAccessToken;
@@ -82,6 +85,7 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
                     if (mHomeModel.user_info.isLogin()) {
                         UserAccountInfoFragment f = new UserAccountInfoFragment();
                         SetFragment((Fragment) f);
+                        mGridView.setVisibility(View.INVISIBLE);
                     } else
                         SetActivity(ActivityLogin.class, ConstValue.IntentResultLogin);
                 }
@@ -129,9 +133,15 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
     void SetFragment(Fragment fragment) {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
+        manager.popBackStackImmediate();
         transaction.replace(R.id.content, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void LeaveAccountInfo()
+    {
+        mGridView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -143,6 +153,7 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
         mModelSerializer = new ModelSerializer(this);
         mBottomView = (BottomNavigationView) findViewById(R.id.navigation);
         mFBCallbackManager = CallbackManager.Factory.create();
+        mGridView = (GridView) findViewById(R.id.gallery_gridimg);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -164,9 +175,9 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
     private void InitPhotList() {
         photo_director = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
         photo_list = new File(photo_director).listFiles();
-        gridview = (GridView) findViewById(R.id.gallery_gridimg);
         myImageAdapter = new ImageAdapter(this, this, photo_list);
-        gridview.setAdapter(myImageAdapter);
+        if ( null != mGridView)
+            mGridView.setAdapter(myImageAdapter);
         CheckAlbumDir();
     }
 
