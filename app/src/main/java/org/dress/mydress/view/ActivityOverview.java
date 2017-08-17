@@ -56,11 +56,6 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
     private static final String TAG = "overview";
     private ImageAdapter myImageAdapter;
     private GridView gridview;
-
-    public Home getHomeModel() {
-        return mHomeModel;
-    }
-
     private Toast toast = null;
     private File m_photofile = null;
     private String photo_director = null;
@@ -144,7 +139,7 @@ public class ActivityOverview extends AppCompatActivity implements UserAccountIn
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_overview);
-        mHomeModel = new Home();
+        mHomeModel = Home.get();
         mModelSerializer = new ModelSerializer(this);
         mBottomView = (BottomNavigationView) findViewById(R.id.navigation);
         mFBCallbackManager = CallbackManager.Factory.create();

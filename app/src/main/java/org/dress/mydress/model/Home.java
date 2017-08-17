@@ -11,6 +11,23 @@ import org.dress.mydress.model.ClothType;
 public class Home {
     public User user_info;
     public Wardrobe wardrobe_info;
+    private static Home instance;
+
+    public static Home get()
+    {
+        if( instance != null )
+            return instance;
+        instance = new Home();
+        return instance;
+    }
+
+    public User getUser() {
+        return user_info;
+    }
+
+    public Wardrobe getWardrobe() {
+        return wardrobe_info;
+    }
 
     public Home()
     {

@@ -29,7 +29,6 @@ public class UserAccountInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Home   mHome;
     private OnFragmentInteractionListener mListener;
 
     public UserAccountInfoFragment() {
@@ -68,14 +67,13 @@ public class UserAccountInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ActivityOverview parent = (ActivityOverview) getActivity();
-        mHome = new Home();
-        mHome.Set(parent.getHomeModel());
+        Home home = Home.get();
 
         View view =  inflater.inflate(R.layout.fragment_user_account_info, container, false);
         TextView mTextName = (TextView)view.findViewById(R.id.account_name);
         TextView mTextPage = (TextView)view.findViewById(R.id.account_url);
-        mTextName.setText(mHome.user_info.name);
-        mTextPage.setText(mHome.user_info.page);
+        mTextName.setText(home.user_info.name);
+        mTextPage.setText(home.user_info.page);
         return view;
     }
 
