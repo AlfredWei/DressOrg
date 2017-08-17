@@ -48,11 +48,6 @@
     <string name="input_name">Please Input Name</string>
     <string name="input_tag">Please Input Tags</string>
     <string name="input_type">Please Select Cloth Type</string>
-    <string-array name="cloth_tpye">
-        <item>Coat</item>
-        <item>Pants</item>
-        <item>Other</item>
-    </string-array>
 
     <!-- String releate to photo_gallery-->
     <string name="not_select_photo"> Please select at least one image </string>

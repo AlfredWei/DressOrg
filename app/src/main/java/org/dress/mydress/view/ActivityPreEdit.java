@@ -19,6 +19,7 @@ import org.dress.mydress.Utility.ImageProcess.ProcessData;
 import org.dress.mydress.Utility.ImageProcess.RemoveBackground;
 import org.dress.mydress.Utility.UtilityView.CropImageView;
 import org.dress.mydress.model.Cloth;
+import org.dress.mydress.model.ClothType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opencv.android.OpenCVLoader;
@@ -37,6 +38,7 @@ public class ActivityPreEdit extends AppCompatActivity {
     private TextView mTextMessage;
     private int PICK_IMAGE_REQUEST = 1;
     private int EDIT_PHOTO_REQUEST = 2;
+    Cloth edited_cloth_data = new Cloth();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -137,10 +139,8 @@ public class ActivityPreEdit extends AppCompatActivity {
     private void DoEditPhoto()
     {
         Intent edit_photo_intent = new Intent(ActivityPreEdit.this, ActivityEdit.class);
-        Cloth json_cloth = new Cloth();
-
         edit_photo_intent.putExtra("photo_path", mPhotoPath );
-        edit_photo_intent.putExtra("cloth_data", json_cloth );
+        edit_photo_intent.putExtra("cloth_data", edited_cloth_data );
         startActivityForResult(edit_photo_intent, EDIT_PHOTO_REQUEST);
     }
 
@@ -155,16 +155,15 @@ public class ActivityPreEdit extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == PICK_IMAGE_REQUEST )
+        if (requestCode == EDIT_PHOTO_REQUEST )
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                mPhotoPath = data.getStringExtra("data");
-
-                SetImageView(mPhotoPath);
-                mTextMessage.setText(getString(R.string.find_object));
+                edited_cloth_data = data.getParcelableExtra("cloth_data");
+                Log.v(TAG,edited_cloth_data.GetClothName());
+                Log.v(TAG,edited_cloth_data.GetClothTags());
+                Log.v(TAG,edited_cloth_data.GetClothType().toString());
             }
-
         }
     }
 

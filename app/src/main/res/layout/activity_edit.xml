@@ -37,8 +37,8 @@
                 android:layout_width = "match_parent"
                 android:layout_height = "wrap_content"
                 android:layout_marginBottom="15dip"
-                android:textColor = "@android:color/darker_gray"
-                android:text = "@string/input_name"/>
+                android:textColor = "@android:color/black"
+                android:hint="@string/input_name" />
 
             <TextView
                 android:layout_width = "match_parent"
@@ -52,8 +52,8 @@
                 android:layout_width = "match_parent"
                 android:layout_height = "wrap_content"
                 android:layout_marginBottom="15dip"
-                android:textColor = "@android:color/darker_gray"
-                android:text = "@string/input_tag"/>
+                android:textColor = "@android:color/black"
+                android:hint="@string/input_tag"/>
 
             <TextView
                 android:layout_width = "match_parent"

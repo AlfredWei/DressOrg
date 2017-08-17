@@ -1,14 +1,12 @@
 package org.dress.mydress.view;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -18,45 +16,66 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 
 import org.dress.mydress.R;
+import org.dress.mydress.data.ModelSerializer;
+import org.dress.mydress.model.Home;
 import org.dress.mydress.model.Cloth;
+import org.dress.mydress.model.ClothType;
 
 public class ActivityEdit extends AppCompatActivity {
 
-    private static final String TAG = "overview";
+    private static final String TAG = "EditView";
+
+    ArrayAdapter<ClothType> m_clothtype_list;
     String mPhotoPath = null;
     ImageView Photo_view;
     EditText m_text_name, m_text_tags;
     Spinner m_cloth_type_spinner;
-    Cloth edited_cloth_data;
+    Cloth m_edited_cloth_data;
+    Home m_user_data;
+    ModelSerializer m_ModelSerializer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         init();
-
+        DisplayClothDataInText();
+        SetImageView(mPhotoPath);
     }
 
     private void init()
     {
+        m_user_data = Home.get();
+        m_ModelSerializer = new ModelSerializer(this);
+        Log.v("Cloths_num :",  String.valueOf(m_user_data.getWardrobe().clothes.size() ) );
         Intent pre_intent = this.getIntent();
         mPhotoPath = pre_intent.getStringExtra( "photo_path" );
-        edited_cloth_data = pre_intent.getParcelableExtra("cloth_data");
+        m_edited_cloth_data = pre_intent.getParcelableExtra("cloth_data");
         Photo_view = (ImageView) findViewById( R.id.edit_imgview );
         m_text_name = (EditText) findViewById( R.id.text_cloth_name);
         m_text_tags  = (EditText) findViewById( R.id.text_colth_tag );
         m_cloth_type_spinner = (Spinner) findViewById( R.id.cloth_type_spinner) ;
-        ArrayAdapter<CharSequence> clothtype_list = ArrayAdapter.createFromResource(ActivityEdit.this,
-                R.array.cloth_tpye, android.R.layout.simple_spinner_item);
-        clothtype_list.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-        m_cloth_type_spinner.setAdapter(clothtype_list);
 
-        SetImageView(mPhotoPath);
+        m_clothtype_list = new ArrayAdapter<ClothType>( ActivityEdit.this, android.R.layout.simple_spinner_item,
+                                                        ClothType.values() );
+        m_clothtype_list.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+        m_cloth_type_spinner.setAdapter( m_clothtype_list );
+        ClothType cloth_type = m_edited_cloth_data.GetClothType();
+        int type_position = m_clothtype_list.getPosition( cloth_type );
+        m_cloth_type_spinner.setSelection( type_position );
     }
 
-    private void SetClothData()
+    private void DisplayClothDataInText()
     {
+        String cloth_name = m_edited_cloth_data.GetClothName();
+        String cloth_tag = m_edited_cloth_data.GetClothTags();
+
+        if( !cloth_name.isEmpty() )
+            m_text_name.setText(cloth_name);
+        if( !cloth_tag.isEmpty() )
+            m_text_tags.setText(cloth_tag);
     }
+
 
     private void SetImageView(String photo_path)
     {
@@ -89,9 +108,26 @@ public class ActivityEdit extends AppCompatActivity {
 
     private void SaveClothData()
     {
-        Log.v(TAG,m_text_name.getText().toString());
-        Log.v(TAG,m_text_tags.getText().toString());
-        Log.v(TAG,m_cloth_type_spinner.getSelectedItem().toString());
+        int type_position = m_cloth_type_spinner.getSelectedItemPosition();
+        m_edited_cloth_data.setsName( m_text_name.getText().toString() );
+        m_edited_cloth_data.setsTags( m_text_tags.getText().toString() );
+        m_edited_cloth_data.setcType( m_clothtype_list.getItem(type_position) );
+        Intent preedit_view_intent = new Intent(ActivityEdit.this, ActivityPreEdit.class);
+        preedit_view_intent.putExtra("cloth_data", m_edited_cloth_data );
+        m_user_data.getWardrobe().clothes.add( m_edited_cloth_data );
+
+        if (!m_user_data.user_info.user_id.isEmpty() &&
+                !m_user_data.wardrobe_info.clothes.isEmpty()) {
+            try {
+                m_ModelSerializer.SaveUserWardrobe(
+                        m_user_data.user_info.user_id, m_user_data.wardrobe_info);
+            } catch (Exception e) {
+                Log.v(TAG, "Got exception while save Wardrobe");
+                Log.v(TAG, e.toString());
+            }
+        }
+        setResult(RESULT_OK, preedit_view_intent);
+        finish();
     }
 
     private void ReturnPreEditView()
