@@ -114,7 +114,7 @@ public class ActivityEdit extends AppCompatActivity {
         m_edited_cloth_data.setcType( m_clothtype_list.getItem(type_position) );
         Intent preedit_view_intent = new Intent(ActivityEdit.this, ActivityPreEdit.class);
         preedit_view_intent.putExtra("cloth_data", m_edited_cloth_data );
-        m_user_data.getWardrobe().clothes.add( m_edited_cloth_data );
+        m_user_data.getWardrobe().addCloth( m_edited_cloth_data );
 
         if (!m_user_data.user_info.user_id.isEmpty() &&
                 !m_user_data.wardrobe_info.clothes.isEmpty()) {

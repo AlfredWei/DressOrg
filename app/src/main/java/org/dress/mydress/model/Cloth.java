@@ -3,6 +3,7 @@ package org.dress.mydress.model;
 /**
  * Created by j-weishiyi on 2017/6/12.
  */
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,7 +14,7 @@ import org.dress.mydress.model.ClothType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Cloth implements Parcelable{
+public class Cloth implements Parcelable {
     private ClothType cType;
     private String sName;
     private String sClothID;
@@ -28,7 +29,7 @@ public class Cloth implements Parcelable{
     private final String JSON_CLOTH_LOCAL_PATH = "path";
     private final String JSON_CLOTH_LOCAL_ID = "id";
 
-    public Cloth(){
+    public Cloth() {
         cType = ClothType.UNDEF;
         sName = new String();
         sClothID = new String();
@@ -37,13 +38,11 @@ public class Cloth implements Parcelable{
         sLocalID = new String();
     }
 
-    public Cloth(JSONObject jContent) throws JSONException
-    {
+    public Cloth(JSONObject jContent) throws JSONException {
         fromJson(jContent);
     }
 
-    public JSONObject toJson () throws JSONException
-    {
+    public JSONObject toJson() throws JSONException {
         JSONObject jContent = new JSONObject();
         jContent.put(JSON_CLOTH_TYPE, this.cType.toString());
         jContent.put(JSON_CLOTH_NAME, this.sName);
@@ -55,20 +54,18 @@ public class Cloth implements Parcelable{
         return jContent;
     }
 
-    public boolean fromJson(JSONObject jContent) throws JSONException
-    {
+    public boolean fromJson(JSONObject jContent) throws JSONException {
         this.cType = ClothType.valueOf(jContent.getString(JSON_CLOTH_TYPE));
         this.sName = jContent.getString(JSON_CLOTH_NAME);
         this.sLocalID = jContent.getString(JSON_CLOTH_LOCAL_ID);
         this.sLocalPath = jContent.getString(JSON_CLOTH_LOCAL_PATH);
         this.sTags = jContent.getString(JSON_CLOTH_TAGS);
         this.sClothID = jContent.getString(JSON_CLOTH_ID);
-        return ! sClothID.isEmpty() && ! sLocalPath.isEmpty();
+        return !(sLocalID.isEmpty() && sClothID.isEmpty());
     }
 
     //Parcel Overrides
-    public Cloth(Parcel in)
-    {
+    public Cloth(Parcel in) {
         String[] data = new String[6];
 
         in.readStringArray(data);
@@ -88,7 +85,7 @@ public class Cloth implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] {
+        dest.writeStringArray(new String[]{
                 this.cType.name(),
                 this.sName,
                 this.sClothID,
@@ -98,34 +95,44 @@ public class Cloth implements Parcelable{
         });
     }
 
-    public void setsName(String new_name )
-    {
+    public void setsName(String new_name) {
         sName = new_name;
     }
 
-    public void setsTags(String new_tags )
-    {
+    public void setsTags(String new_tags) {
         sTags = new_tags;
     }
 
-    public void setcType(ClothType new_type )
-    {
+    public void setcType(ClothType new_type) {
         cType = new_type;
     }
 
-    public String GetClothName()
-    {
-        return  sName;
+    public String GetClothName() {
+        return sName;
     }
 
-    public String GetClothTags()
-    {
-        return  sTags;
+    public String GetClothTags() {
+        return sTags;
     }
 
-    public ClothType GetClothType()
-    {
-        return  cType;
+    public ClothType GetClothType() {
+        return cType;
+    }
+
+    public String getLocalID() {
+        return sLocalID;
+    }
+
+    public String getLocalPath() {
+        return sLocalPath;
+    }
+
+    public void setLocalPath(String sLocalPath) {
+        this.sLocalPath = sLocalPath;
+    }
+
+    public void setsLocalID(String sLocalID) {
+        this.sLocalID = sLocalID;
     }
 
     public static final Parcelable.Creator<Cloth> CREATOR =

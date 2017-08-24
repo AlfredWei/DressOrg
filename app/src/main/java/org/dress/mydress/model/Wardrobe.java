@@ -79,4 +79,15 @@ public class Wardrobe implements Parcelable{
         }
 
     }
+
+    public Boolean addCloth(Cloth cloth)
+    {
+        if(cloth.getLocalID().isEmpty())
+        {
+            cloth.setsLocalID(String.valueOf(clothes.size()));
+        }
+
+        clothes.add(cloth);
+        return true;
+    }
 }
